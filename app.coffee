@@ -6,7 +6,7 @@ url = require 'url'
 __ = require 'underscore'
 geohash = require("geohash").GeoHash
 
-port = 2000 #parseInt(process.env.PORT) || 5100
+port = parseInt(process.env.PORT)
 
 app = express.createServer()
 
