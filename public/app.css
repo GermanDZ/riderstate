@@ -1,0 +1,12 @@
+#map {
+  width: 640px;
+  height: 480px;
+  background-color: red;
+  float: left;
+}
+
+#tracks {
+  float: left;
+  text-align: left;
+  margin-left: 20px;
+}

@@ -1,0 +1,60 @@
+%h1 #{@name}
+
+%div#map
+
+#tracks
+  %h2 Conquer the world
+    %p
+      Endomondo Workout #
+      %input#workout.values(type="text")
+      %input.workout(type="button" value="Show")
+    %h3 SAMPLES
+    %p
+      BICI 1
+      %input#bici1.values(type="hidden")
+      %input.add(type="button" value="Show")
+    %p
+      BICI 2
+      %input#bici2.values(type="hidden")
+      %input.add(type="button" value="Show")
+    %p
+      Running 1
+      %input#running1.values(type="hidden")
+      %input.add(type="button" value="Show")
+    %p
+      Running 2
+      %input#running2.values(type="hidden")
+      %input.add(type="button" value="Show")
+    %p
+      Running 3
+      %input#running3.values(type="hidden")
+      %input.add(type="button" value="Show")
+    %p
+      10K BBVA Madrid 2010
+      %input#bbva.values(type="hidden")
+      %input.add(type="button" value="Show")
+    %p
+      Custom Geohashes
+      %input#custom.values(type="text")
+      %input.add(type="button" value="Show")
+
+    
+
+:javascript
+  $(document).ready(function(){
+    RiderState.run();
+    $('#bici1').val('ezjq7v ezjq7y ezjqkn ezjqkj ezjqkq ezjqkr ezjqkx ezjqkw ezjqkt ezjqks ezjqku ezjqkg ezjqm5 ezjqm4 ezjqkf ezjqke');
+    $('#bici2').val('ezjme8 ezjme9 ezjmed ezjme6 ezjme7 ezjmek ezjmes ezjmet ezjmem ezjmej ezjmdv ezjmdt ezjmdw ezjmdq ezjmdr ezjmf2 ezjmf3 ezjmfd ezjmf6 ezjmf7 ezjmfe ezjmfs ezjmft ezjmfv ezjmgj ezjmgn ezjmgp ezjmfz ezjq4b ezjq4c ezjq4f ezjq4g ezjq4e ezjq4s ezjq4t ezjq4v ezjq4w ezjq4x ezjq4z ezjq6b ezjq6c ezjq6f ezjq74 ezjq75 ezjq77');
+    $('#running1').val('ezjq7t ezjq7m ezjq7w ezjq7y ezjq7z ezjqkp ezjq7v');
+    $('#running2').val('ezjq7t ezjq7m ezjq7w ezjq7y ezjq7z ezjq7v');
+    $('#running3').val('ezjq7t ezjq7m ezjq7k ezjq77');
+    $('#bbva').val('ezjq5g ezjq5f ezjqh4 ezjq5c ezjqh1 ezjqh0 ezjqh2 ezjmur ezjmuq ezjmun ezjmum ezjmuk ezjmu7 ezjmu5 ezjmuh ezjmuj');
+    $('.add').bind('click', function() {
+      var val = $(this).parent().find('.values').val();
+      RiderState.show(val);
+    })
+    $('.workout').bind('click', function() {
+      var val = $(this).parent().find('.values').val();
+      RiderState.import(val);
+    })
+  })

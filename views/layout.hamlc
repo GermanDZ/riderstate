@@ -1,0 +1,11 @@
+!!!
+%head
+  %title RiderState
+  %link(href="/app.css" rel="stylesheet" type="text/css")
+  %script(src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCf6jw1jDdyl-YG5etce1yJWNaMzzjwUmM&amp;sensor=false&amp;language=en" type="text/javascript")
+  %script(type="text/javascript", src="/javascripts/jquery-1.7.2.js")
+  %script(type="text/javascript", src="/javascripts/underscore.js")
+  %script(type="text/javascript", src="/javascripts/geohash.js")
+  %script(type="text/javascript", src="/client.js")
+%body
+  != @body

@@ -1,0 +1,12 @@
+{
+  "name": "riderstate",
+  "version": "0.0.1",
+  "dependencies": {
+    "coffee-script": "latest",
+    "express": "latest",
+    "haml-coffee": "latest",
+    "underscore":"latest",
+    "stylus":"latest",
+    "geohash":"latest"
+  }
+} 
