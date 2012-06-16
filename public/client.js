@@ -2,9 +2,11 @@
 
   window.RiderState = {
     run: function() {
+      var socket;
       _.bindAll(this, 'initMap', 'show', 'import');
       google.maps.event.addDomListener(window, 'load', this.initMap);
-      return window.rs = this;
+      socket = io.connect();
+      return socket.on('workoutInfo', this.show);
     },
     initMap: function() {
       var pos;
@@ -27,7 +29,7 @@
       });
     },
     show: function(hashesStr) {
-      var code, hashes, showHash, _i, _len, _results,
+      var code, hashes, latLng, showHash, _i, _len,
         _this = this;
       hashes = hashesStr.split(" ");
       showHash = function(code) {
@@ -45,12 +47,13 @@
         });
         return rectangle.setBounds(latLngBounds);
       };
-      _results = [];
       for (_i = 0, _len = hashes.length; _i < _len; _i++) {
         code = hashes[_i];
-        _results.push(showHash(code));
+        showHash(code);
       }
-      return _results;
+      latLng = decodeGeoHash(hashes[0]);
+      this.map.setCenter(new google.maps.LatLng(latLng.latitude[0], latLng.longitude[0]));
+      return this.map.setZoom(11);
     },
     "import": function(id) {
       var _this = this;

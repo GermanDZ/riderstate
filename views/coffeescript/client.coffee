@@ -2,7 +2,8 @@ window.RiderState =
   run: ->
     _.bindAll this, 'initMap', 'show', 'import'
     google.maps.event.addDomListener(window, 'load', @initMap)
-    window.rs = @
+    socket = io.connect()
+    socket.on 'workoutInfo', @show
 
   initMap: ->
     pos = new google.maps.LatLng(40.52, -3.7)
@@ -39,6 +40,9 @@ window.RiderState =
       #   position: new google.maps.LatLng(latLng.latitude[2], latLng.longitude[2])
       #   map: @map
     showHash code for code in hashes
+    latLng = decodeGeoHash(hashes[0])
+    @map.setCenter(new google.maps.LatLng(latLng.latitude[0], latLng.longitude[0]))
+    @map.setZoom(11)
 
   import: (id)->
     $.ajax

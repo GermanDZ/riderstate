@@ -1,14 +1,58 @@
 express = require 'express'
+io = require 'socket.io'
 stylus = require 'stylus'
 hamlc = require 'haml-coffee'
 http = require 'http'
 url = require 'url'
 __ = require 'underscore'
+twitter = require 'ntwitter'
+unshorten = require 'unshorten'
+EventEmitter = require('events').EventEmitter
+
+twit = new twitter
+  consumer_key: 'BQR4W2AGYHaW9WmUUmBUyQ'
+  consumer_secret: 'HO5NcZ8QF68ZXpUzuRNpVCxqsl5Kcd91qy5kv2jvRO8'
+  access_token_key: '20714859-lUxYo8HSWJmT8rsTHix6ybgxUshCED2ahVvRMeI'
+  access_token_secret: '8vmkEKz1Nt6Dtk1jTJIigoj8PU7jnTdDmbMV6CZbo'
+
+workoutEmitter = new EventEmitter
+
+twit.stream 'statuses/filter', {'track':'#endomondo'}, (stream)->
+  stream.on 'data', (data) ->
+    m = data.text.match(/#Endomondo\. See it here: (.*)/)
+    if m[1]
+      unshorten m[1], (wo_url)->
+        unshorten wo_url, (wo_url)->
+          workoutId = wo_url.match(/workouts\/(.*)/)[1]
+          if workoutId
+            onResponse = (response, callback)->
+              str = ''
+              response.on 'data', (chunk) ->
+                str += chunk
+              response.on 'end', ->
+                hashes_str = hashesFromEndomondo(str)
+                workoutEmitter.emit 'workout', hashes_str
+            requestToServer
+              host: "www.endomondo.com"
+              path: "/workouts/#{workoutId}"
+              success: onResponse
+
+  stream.on 'error', (error, data, extra) ->
+    console.log 'error'
+    console.log data
+
 geohash = require("geohash").GeoHash
 
 port = parseInt(process.env.PORT)
 
 app = express.createServer()
+io = io.listen(app)
+
+onSocketConnection = (socket) ->
+  workoutEmitter.on 'workout', (workoutHashes)->
+    socket.emit 'workoutInfo', workoutHashes
+
+io.sockets.on 'connection',  onSocketConnection
 
 app.configure ->
   app.use express.cookieParser()
@@ -71,13 +115,14 @@ readJsonResponse = (response, callback)->
 
 hashesFromEndomondo = (str)->
   m = str.match /.*new TrackHighlights\(Wicket.maps\[\'.*\'\],(.*)\);\$\(\'#chart\'\)\.mouseleave/
-  m = m[1]
-  m2 = m.match /(\[.*?\])/g
-  hashes = []
-  __.each m2, (latlng)=>
-    latlng = latlng.match(/\[(.*),(.*)\]/)
-    hashes.push geohash.encodeGeoHash(latlng[1], latlng[2]).substring(0,6)
-  __.uniq(hashes).join ' '
+  if m
+    m = m[1]
+    m2 = m.match /(\[.*?\])/g
+    hashes = []
+    __.each m2, (latlng)=>
+      latlng = latlng.match(/\[(.*),(.*)\]/)
+      hashes.push geohash.encodeGeoHash(latlng[1], latlng[2]).substring(0,6)
+    __.uniq(hashes).join ' '
 
 app.register '.hamlc', hamlc
 app.set('view engine', 'hamlc');

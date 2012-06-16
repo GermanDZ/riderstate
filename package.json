@@ -5,8 +5,11 @@
     "coffee-script": "latest",
     "express": "latest",
     "haml-coffee": "latest",
+    "socket.io":"latest",
+    "ntwitter":"latest",
     "underscore":"latest",
     "stylus":"latest",
-    "geohash":"latest"
+    "geohash":"latest",
+    "unshorten":"latest"
   }
 } 
