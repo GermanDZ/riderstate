@@ -9,6 +9,13 @@ twitter = require 'ntwitter'
 unshorten = require 'unshorten'
 EventEmitter = require('events').EventEmitter
 
+process.env.TWITTER_CONSUMER_KEY='Crdul1H1pkkV4pLsit8SqA'
+process.env.TWITTER_CONSUMER_SECRET='fm15OyX961i7AWuKvbBLOfG2ffYcDkiv1jwpoTqIo'
+process.env.TWITTER_ACCES_TOKEN_KEY='20714859-lUxYo8HSWJmT8rsTHix6ybgxUshCED2ahVvRMeI'
+process.env.TWITTER_ACCES_TOKEN_SECRET='8vmkEKz1Nt6Dtk1jTJIigoj8PU7jnTdDmbMV6CZbo'
+
+console.log process.env.TWITTER_ACCES_TOKEN_KEY
+
 twit = new twitter
   consumer_key: process.env.TWITTER_CONSUMER_KEY
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET

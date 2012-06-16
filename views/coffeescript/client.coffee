@@ -6,9 +6,9 @@ window.RiderState =
     socket.on 'workoutInfo', @show
 
   initMap: ->
-    pos = new google.maps.LatLng(40.52, -3.7)
+    pos = new google.maps.LatLng(0,0)
     @map = new google.maps.Map $('#map')[0],
-      zoom: 10
+      zoom: 2
       center: pos
       navigationControl: false
       streetViewControl: false
@@ -47,8 +47,6 @@ window.RiderState =
        animation: google.maps.Animation.DROP
        icon: @markerImage
        map: @map
-    # @map.setCenter(latLng)
-    # @map.setZoom(6)
 
   import: (id)->
     $.ajax
