@@ -11,7 +11,7 @@
     initMap: function() {
       var pos;
       pos = new google.maps.LatLng(40.52, -3.7);
-      return this.map = new google.maps.Map($('#map')[0], {
+      this.map = new google.maps.Map($('#map')[0], {
         zoom: 10,
         center: pos,
         navigationControl: false,
@@ -27,6 +27,9 @@
         mapTypeControl: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
+      this.markerImage = new google.maps.MarkerImage('pin.png');
+      this.markerImage.size = new google.maps.Size(32, 39);
+      return this.markerImage.anchor = new google.maps.Point(6, 5);
     },
     show: function(hashesStr) {
       var code, hashes, latLng, showHash, _i, _len,
@@ -40,7 +43,7 @@
         latLngBounds = new google.maps.LatLngBounds(pos1, pos2);
         rectangle = new google.maps.Rectangle({
           map: _this.map,
-          fillColor: '#4D90FE',
+          fillColor: '#FE904D',
           fillOpacity: 0.5,
           strokeColor: '#4D90FE',
           strokeOpacity: 0.5
@@ -52,8 +55,15 @@
         showHash(code);
       }
       latLng = decodeGeoHash(hashes[0]);
-      this.map.setCenter(new google.maps.LatLng(latLng.latitude[0], latLng.longitude[0]));
-      return this.map.setZoom(11);
+      latLng = new google.maps.LatLng(latLng.latitude[2], latLng.longitude[2]);
+      new google.maps.Marker({
+        position: latLng,
+        animation: google.maps.Animation.DROP,
+        icon: this.markerImage,
+        map: this.map
+      });
+      this.map.setCenter(latLng);
+      return this.map.setZoom(6);
     },
     "import": function(id) {
       var _this = this;

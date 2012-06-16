@@ -21,6 +21,9 @@ window.RiderState =
       scrollwheel: false
       mapTypeControl: false
       mapTypeId: google.maps.MapTypeId.ROADMAP
+    @markerImage = new google.maps.MarkerImage('pin.png')
+    @markerImage.size = new google.maps.Size(32, 39)
+    @markerImage.anchor = new google.maps.Point(6, 5)
 
   show: (hashesStr)->
     hashes = hashesStr.split(" ")
@@ -31,18 +34,21 @@ window.RiderState =
       latLngBounds = new google.maps.LatLngBounds(pos1, pos2)
       rectangle = new google.maps.Rectangle
         map: @map
-        fillColor: '#4D90FE'
+        fillColor: '#FE904D'
         fillOpacity: 0.5
         strokeColor: '#4D90FE'
         strokeOpacity: 0.5
       rectangle.setBounds(latLngBounds)
-      # new google.maps.Marker
-      #   position: new google.maps.LatLng(latLng.latitude[2], latLng.longitude[2])
-      #   map: @map
     showHash code for code in hashes
     latLng = decodeGeoHash(hashes[0])
-    @map.setCenter(new google.maps.LatLng(latLng.latitude[0], latLng.longitude[0]))
-    @map.setZoom(11)
+    latLng = new google.maps.LatLng(latLng.latitude[2], latLng.longitude[2])
+    new google.maps.Marker
+       position: latLng
+       animation: google.maps.Animation.DROP
+       icon: @markerImage
+       map: @map
+    # @map.setCenter(latLng)
+    # @map.setZoom(6)
 
   import: (id)->
     $.ajax

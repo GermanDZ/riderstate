@@ -10,10 +10,10 @@ unshorten = require 'unshorten'
 EventEmitter = require('events').EventEmitter
 
 twit = new twitter
-  consumer_key: 'BQR4W2AGYHaW9WmUUmBUyQ'
-  consumer_secret: 'HO5NcZ8QF68ZXpUzuRNpVCxqsl5Kcd91qy5kv2jvRO8'
-  access_token_key: '20714859-lUxYo8HSWJmT8rsTHix6ybgxUshCED2ahVvRMeI'
-  access_token_secret: '8vmkEKz1Nt6Dtk1jTJIigoj8PU7jnTdDmbMV6CZbo'
+  consumer_key: process.env.TWITTER_CONSUMER_KEY
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET
+  access_token_key: process.env.TWITTER_ACCES_TOKEN_KEY
+  access_token_secret: process.env.TWITTER_ACCES_TOKEN_SECRET
 
 workoutEmitter = new EventEmitter
 
@@ -21,9 +21,11 @@ twit.stream 'statuses/filter', {'track':'#endomondo'}, (stream)->
   stream.on 'data', (data) ->
     m = data.text.match(/#Endomondo\. See it here: (.*)/)
     if m[1]
+      console.log "url endomondo: #{m[1]}"
       unshorten m[1], (wo_url)->
         unshorten wo_url, (wo_url)->
           workoutId = wo_url.match(/workouts\/(.*)/)[1]
+          console.log "workout: #{workoutId}"
           if workoutId
             onResponse = (response, callback)->
               str = ''
@@ -38,7 +40,7 @@ twit.stream 'statuses/filter', {'track':'#endomondo'}, (stream)->
               success: onResponse
 
   stream.on 'error', (error, data, extra) ->
-    console.log 'error'
+    console.log 'error', error
     console.log data
 
 geohash = require("geohash").GeoHash
