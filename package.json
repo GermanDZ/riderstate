@@ -1,8 +1,10 @@
 {
   "name": "riderstate",
   "version": "0.0.1",
-  "node": "0.6.x",
-  "npm":  "1.1.x"
+  "engines": {
+    "node": "0.6.x",
+    "npm":  "1.1.x"
+  },
   "dependencies": {
     "coffee-script": "latest",
     "express": "latest",
