@@ -6,7 +6,7 @@ window.RiderState =
     socket.on 'workoutInfo', @show
 
   initMap: ->
-    pos = new google.maps.LatLng(0,0)
+    pos = new google.maps.LatLng(0, 0)
     @map = new google.maps.Map $('#map')[0],
       zoom: 2
       center: pos
