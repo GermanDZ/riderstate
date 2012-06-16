@@ -10,9 +10,9 @@
     },
     initMap: function() {
       var pos;
-      pos = new google.maps.LatLng(40.52, -3.7);
+      pos = new google.maps.LatLng(0, 0);
       this.map = new google.maps.Map($('#map')[0], {
-        zoom: 10,
+        zoom: 2,
         center: pos,
         navigationControl: false,
         streetViewControl: false,
@@ -56,14 +56,12 @@
       }
       latLng = decodeGeoHash(hashes[0]);
       latLng = new google.maps.LatLng(latLng.latitude[2], latLng.longitude[2]);
-      new google.maps.Marker({
+      return new google.maps.Marker({
         position: latLng,
         animation: google.maps.Animation.DROP,
         icon: this.markerImage,
         map: this.map
       });
-      this.map.setCenter(latLng);
-      return this.map.setZoom(6);
     },
     "import": function(id) {
       var _this = this;
