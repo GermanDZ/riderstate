@@ -19,7 +19,7 @@ workoutEmitter = new EventEmitter
 
 twit.stream 'statuses/filter', {'track':'#endomondo'}, (stream)->
   stream.on 'data', (data) ->
-    m = data.text.match(/#Endomondo\. See it here: (.*)/)
+    m = data.text.match(/Was.*#Endomondo\. See it here: (.*)/)
     if m[1]
       console.log "url endomondo: #{m[1]}"
       unshorten m[1], (wo_url)->
